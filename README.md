@@ -1,2 +1,2 @@
 # ESP_BME280
-use aruduion sketch and read with python script
+use aruduino sketch and read with python script (mysql or influx db)
