@@ -48,7 +48,7 @@ sql_dbname='BME280'
                
 if odb:
     from influxdb import InfluxDBClient
-    client = InfluxDBClient( host     = "10.37.0.216",port     = "8086",username = "",password = "",database= "mod1" )
+    client = InfluxDBClient( host     = "10.37.0.216",port     = "8086",username = "root",password = "root",database= "mod1" )
 
 print ("ESP_BME280 serial reader")
 print ("device ID=",DEV_ID)
@@ -68,33 +68,35 @@ while 1:
     ser=serial.Serial(port,baud)
     line=ser.readline().decode().replace('\n','')
     lines=line.split()
-    dt=datetime.datetime.today()
-    print(dt.strftime('%Y/%m/%d/%H:%M:%S'),"\t",line)
+    if len(lines) == 8:
+        dt=datetime.datetime.today()
+        print(dt.strftime('%Y/%m/%d/%H:%M:%S'),"\t",line)
 
-    if odb:
-        json_data = [
-            {
-                'measurement' : 'bme',
-                'fields' : {
-                    'sensor' : lines[0],
-                    'pre'    : float(lines[1]),
-                    'temp'   : float(lines[2]),
-                    'hum'    : float(lines[3]),
-                    'adc0'    : float(lines[4]),
-                    'adc1'    : float(lines[5]),
-                    'adc2'    : float(lines[6]),
-                    'adc3'    : float(lines[7])
-                },
-                'time' : datetime.datetime.utcnow(),
-                'tags' : {
-                    'device' : 'BME280',
-                    'host'   : 'RMNS-12'
+        if odb:
+            json_data = [
+                {
+                    'measurement' : 'bme',
+                    'fields' : {
+                        'sensor' : lines[0],
+                        'pre'    : float(lines[1]),
+                        'temp'   : float(lines[2]),
+                        'hum'    : float(lines[3]),
+                        'adc0'    : float(lines[4]),
+                        'adc1'    : float(lines[5]),
+                        'adc2'    : float(lines[6]),
+                        'adc3'    : float(lines[7])
+                    },
+                    'time' : datetime.datetime.utcnow(),
+                    'tags' : {
+                        'device' : 'BME280',
+                        'host'   : 'RMNS-12'
+                    }
                 }
-            }
-        ]   
-        result = client.write_points(json_data)
-        
-    ser.close()
+            ]   
+            result = client.write_points(json_data)        
+            ser.close()
+        else:
+            print("imcomplete data.")
     if oneshot:
         break
     sleep(interval)
