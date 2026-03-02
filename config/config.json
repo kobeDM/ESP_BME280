@@ -1,0 +1,17 @@
+{
+    "device_id": "RMNS-12",
+    "serial": {
+        "baud": 115200
+    },
+    "influx": {
+        "enable": true,
+        "host": "10.37.0.216",
+        "port": 8086,
+        "username": "root",
+        "password": "root",
+        "database": "mod1",
+        "measurement": "bme",
+        "device_tag": "BME280",
+        "host_tag": "RMNS-12"
+    }
+}
