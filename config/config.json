@@ -9,7 +9,7 @@
         "port": 8086,
         "username": "root",
         "password": "root",
-        "database": "mod1",
+        "database": "mod0",
         "measurement": "bme",
         "device_tag": "BME280",
         "host_tag": "RMNS-12"
