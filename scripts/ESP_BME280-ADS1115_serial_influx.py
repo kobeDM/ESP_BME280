@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import os
 import serial
 import datetime
 import argparse
@@ -123,7 +124,11 @@ def run_monitoring(cfg, interval, oneshot):
 def main():
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("-c", "--config", default="../config/config.json")
+    parser.add_argument(
+        "-c",
+        "--config",
+        default=os.environ.get("ESP_BME280_CONFIG", "/home/msgc/repo/ESP_BME280/config/config.json"),
+    )
     parser.add_argument("-o", action="store_true")
     parser.add_argument("-i", type=int, default=10)
 
